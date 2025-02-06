@@ -42,12 +42,106 @@ def Exit():
     root.destroy()
 
 def showimage():
+    global filename
+    global img
     filename = filedialog.askopenfilename(initialdir=os.getcwd(),
                                           title="Select image file", filetype=(("JPG File","*.jpg"), ("PNG File","*.png"),
                                                                                ("ALL Files","*.txt")))
+    img = (Image.open(filename))
+    resized_image = img.resize((190,190))
+    photo2 = ImageTk.PhotoImage(resized_image)
+    lbl.config(image= photo2)
+    lbl.image = photo2
+
+##### registration #############
+# design automatic registration no entry system 
+
+def registration_no():
+    file = openpyxl.load_workbook("student_data.xlsx")
+    sheet = file.active
+    row = sheet.max_row
+
+    max_row_value= sheet.cell(row =row, column = 1).value
+
+    try:
+        Registration.set(int(max_row_value) + 1)
+    except (ValueError, TypeError):
+        Registration.set("1")  # Eğer hücre boşsa veya geçersizse 1 olarak başlat 
+
+###### CLEAR ##############
+
+def clear():
+    global img
+    Name.set("")
+    Surname.set("")
+    DOB.set("")
+    Email.set("")
+    Phone.set("")
+    UniName.set("")
+    StudentNo.set("")
+    Class.set("Select Class")
+    Skill.set("")
+
+    registration_no()
+    SaveButton.config(state="normal")
+    img1 = PhotoImage(file ="images/add-user.png")
+    lbl.config(image=img1)
+    lbl.image = img1
+
+    img = ""
+
+############### SAVE #####################3
+
+def save():
+    R1 = Registration.get()
+    N1 = Name.get()
+    S1= Surname.get()
+    try:
+        G1= gender
+    except :
+        messagebox.showerror("error", "Select gender!")
+
+    D2= DOB.get()
+    D1 = Date.get()
+    E1 = Email.get()
+    P1 = Phone.get()
+    U1 = UniName.get()
+    S2 = StudentNo.get()
+    C1 = Class.get()
+    S3 = Skill.get()
+
+    if N1 =="" or C1 =="Select Class" or D2 =="" or S1=="" or E1=="" or P1=="" or U1=="" or S2=="":
+        messagebox.showerror("error", "Few Data Missing!")
+    else:
+        file= openpyxl.load_workbook("student_data.xlsx")
+        sheet= file.active
+        sheet.cell(column=1, row=sheet.max_row+1, value=R1)
+        sheet.cell(column=2, row=sheet.max_row, value=N1)
+        sheet.cell(column=3, row=sheet.max_row, value=S1)
+        sheet.cell(column=4, row=sheet.max_row, value=D2)
+        sheet.cell(column=5, row=sheet.max_row, value=D1)
+        sheet.cell(column=6, row=sheet.max_row, value=E1)
+        sheet.cell(column=7, row=sheet.max_row, value=P1) 
+        sheet.cell(column=8, row=sheet.max_row, value=U1)
+        sheet.cell(column=9, row=sheet.max_row, value=S2)
+        sheet.cell(column=10, row=sheet.max_row, value=C1)
+        sheet.cell(column=11, row=sheet.max_row, value=S3)
+        file.save(r"student_data.xlsx")
+
+        try:
+            img.save("Student images/"+str(R1)+".jpg")
+        except:
+            messagebox.showinfo("info","Profile picture is not available")
+
+        messagebox.showinfo("info","Succesfuly data entered.")
+
+        clear()
+        registration_no()
+
 
 #gender
 def selection():
+    global gender
     value=radio.get()
     if value == 1:
         gender = "Male"
@@ -96,13 +190,15 @@ Label(
     font=("Arial", 13 ),  # Daha büyük ve modern font
 ).place(x= 480, y=130)
 
-Registration= StringVar()
+Registration= IntVar()
 Date = StringVar()
 
 reg_entry = Entry(root, textvariable= Registration, width=15, font=("Arial", 10), bg="#f8f8f6")
 reg_entry.place(x= 160, y=130)
 
-#registration_no 
+registration_no()
+
+
 today = date.today()
 d1=today.strftime("%d/%m/%Y")
 date_entry = Entry(root, textvariable= Date, width=15, font=("Arial 10"),bg="#f8f8f6")
@@ -120,10 +216,10 @@ obj = LabelFrame(root, text="Student's Details",
 obj.place(x=30, y=200)
 
 Label( obj,text="Name: ",bg="#292D3E", fg="#f8f8f6",font=("Arial", 13 ),  ).place(x= 30, y=50)
-Label( obj,text="Surname: ",bg="#292D3E", fg="#f8f8f6",font=("Arial", 13 ),  ).place(x= 30, y=100)
+Label( obj,text="Date of Birth: ",bg="#292D3E", fg="#f8f8f6",font=("Arial", 13 ),  ).place(x= 30, y=100)
 Label( obj,text="Gender: ",bg="#292D3E", fg="#f8f8f6",font=("Arial", 13 ),  ).place(x= 30, y=150)
 
-Label( obj,text="Date of Birth: ",bg="#292D3E", fg="#f8f8f6",font=("Arial", 13 ),  ).place(x=400, y=50)
+Label( obj,text="Surname: ",bg="#292D3E", fg="#f8f8f6",font=("Arial", 13 ),  ).place(x=400, y=50)
 Label( obj,text="Email: ",bg="#292D3E", fg="#f8f8f6",font=("Arial", 13 ),  ).place(x=400, y=100)
 Label( obj,text="Phone Number: ",bg="#292D3E", fg="#f8f8f6",font=("Arial", 13 ),  ).place(x= 400, y=150)
 
@@ -133,7 +229,7 @@ name_entry.place(x=100, y=50)
 
 Surname = StringVar()
 surname_entry= Entry(obj, textvariable= Surname, width= 20, font=("Arial", 10),bg="#f8f8f6")
-surname_entry.place(x=120, y=100)
+surname_entry.place(x=140, y=100)
 
 radio= IntVar()
 radio1 = Radiobutton(obj, text="Male", variable=radio, bg="#f8f8f6",value=1, command=selection) 
@@ -144,7 +240,7 @@ radio2.place(x=180, y=150)
 
 DOB = StringVar()
 dob_entry= Entry(obj, textvariable= DOB ,width= 20,bg="#f8f8f6", font=("Arial", 10))
-dob_entry.place(x=515, y=50)
+dob_entry.place(x=490, y=50)
 
 Email = StringVar()
 email_entry= Entry(obj, textvariable= Email, bg="#f8f8f6",width= 20, font=("Arial", 10))
@@ -182,7 +278,7 @@ Class.place(x=460, y=40)
 Class.set("Select Class")
 
 Skill = StringVar()
-skill_entry= Entry(obj2, textvariable= StudentNo, width= 20, font=("Arial", 10),bg="#f8f8f6")
+skill_entry= Entry(obj2, textvariable= Skill, width= 20, font=("Arial", 10),bg="#f8f8f6")
 skill_entry.place(x=450, y=100)
 
 
@@ -199,9 +295,9 @@ lbl.place(x=0, y=0)
 #button
 
 Button(root, text="Upload", width=19, height=2, font="Arial 12 bold",bg="#88CE65", command=showimage).place(x=980, y=370)
-SaveButton=Button(root, text="Save", width=19, height=2, font="Arial 12 bold", bg="#17ACE8")
+SaveButton=Button(root, text="Save", width=19, height=2, font="Arial 12 bold", bg="#17ACE8", command = save)
 SaveButton.place(x=980, y=450)
-Button(root, text="Reset", width=19, height=2, font="Arial 12 bold",bg="#FFBB17").place(x=980, y=530)
+Button(root, text="Reset", width=19, height=2, font="Arial 12 bold",bg="#FFBB17", command=clear).place(x=980, y=530)
 Button(root, text="Exit", width=19, height=2, font="Arial 12 bold",bg="#F44336", command=Exit).place(x=980, y=610)
 
 root.mainloop()
