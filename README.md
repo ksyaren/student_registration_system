@@ -5,11 +5,11 @@ Bu proje, öğrenci kayıtlarını yönetmek için geliştirilmiş bir Python uy
 ## Özellikler
 
 - **Öğrenci Kaydı:** Yeni öğrencilerin kaydını yapabilirsiniz. Kayıt sırasında öğrencinin adı, soyadı, doğum tarihi, cinsiyeti, e-posta adresi, telefon numarası, üniversite adı, öğrenci numarası, sınıfı ve becerileri gibi bilgileri girebilirsiniz.
-- **Öğrenci Arama:** Kayıtlı öğrencileri kayıt numarasına göre arayabilirsiniz.
-- **Öğrenci Bilgilerini Güncelleme:** Mevcut öğrenci bilgilerini güncelleyebilirsiniz.
-- **Öğrenci Bilgilerini Silme:** Öğrenci bilgilerini silebilirsiniz.
-- **Profil Fotoğrafı Yükleme:** Öğrencilerin profil fotoğraflarını yükleyebilirsiniz.
-- **Excel Dosyasına Kaydetme:** Tüm öğrenci bilgileri bir Excel dosyasına kaydedilir.
+- Öğrenci Arama
+- Öğrenci Bilgilerini Güncelleme
+- Öğrenci Bilgilerini Silme
+- Profil Fotoğrafı Yükleme
+- Excel Dosyasına Kaydetme
 
 ## Kullanılan Teknolojiler
 
