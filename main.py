@@ -28,12 +28,13 @@ else:
     sheet["C1"] = "surname"
     sheet["D1"] = "Gender"
     sheet["E1"] = "Date of Birth"
-    sheet["F1"] = "Email"
-    sheet["G1"] = "Phone Number"
-    sheet["H1"] = "University"
-    sheet["I1"] = "Student No"
-    sheet["J1"] = "Class"
-    sheet["K1"] = "Skill"
+    sheet["F1"] = "Registration Date"
+    sheet["G1"] = "Email"
+    sheet["H1"] = "Phone Number"
+    sheet["I1"] = "University"
+    sheet["J1"] = "Student No"
+    sheet["K1"] = "Class"
+    sheet["L1"] = "Skill"
 
     workbook.save("student_data.xlsx")
 
@@ -340,10 +341,11 @@ obj = LabelFrame(root, text="Student's Details",
 obj.place(x=30, y=200)
 
 Label( obj,text="Name: ",bg="#292D3E", fg="#f8f8f6",font=("Arial", 13 ),  ).place(x= 30, y=50)
-Label( obj,text="Date of Birth: ",bg="#292D3E", fg="#f8f8f6",font=("Arial", 13 ),  ).place(x= 30, y=100)
+Label( obj,text="Surname: ",bg="#292D3E", fg="#f8f8f6",font=("Arial", 13 ),  ).place(x=400, y=50)
 Label( obj,text="Gender: ",bg="#292D3E", fg="#f8f8f6",font=("Arial", 13 ),  ).place(x= 30, y=150)
 
-Label( obj,text="Surname: ",bg="#292D3E", fg="#f8f8f6",font=("Arial", 13 ),  ).place(x=400, y=50)
+
+Label( obj,text="Date of Birth: ",bg="#292D3E", fg="#f8f8f6",font=("Arial", 13 ),  ).place(x= 30, y=100)
 Label( obj,text="Email: ",bg="#292D3E", fg="#f8f8f6",font=("Arial", 13 ),  ).place(x=400, y=100)
 Label( obj,text="Phone Number: ",bg="#292D3E", fg="#f8f8f6",font=("Arial", 13 ),  ).place(x= 400, y=150)
 
@@ -353,7 +355,7 @@ name_entry.place(x=100, y=50)
 
 Surname = StringVar()
 surname_entry= Entry(obj, textvariable= Surname, width= 20, font=("Arial", 10),bg="#f8f8f6")
-surname_entry.place(x=140, y=100)
+surname_entry.place(x=490, y=50)  # Surname alanı doğru yere taşındı
 
 radio= IntVar()
 radio1 = Radiobutton(obj, text="Male", variable=radio, bg="#f8f8f6",value=1, command=selection) 
@@ -364,7 +366,7 @@ radio2.place(x=180, y=150)
 
 DOB = StringVar()
 dob_entry= Entry(obj, textvariable= DOB ,width= 20,bg="#f8f8f6", font=("Arial", 10))
-dob_entry.place(x=490, y=50)
+dob_entry.place(x=140, y=100)  # DOB alanı doğru yere taşındı
 
 Email = StringVar()
 email_entry= Entry(obj, textvariable= Email, bg="#f8f8f6",width= 20, font=("Arial", 10))
