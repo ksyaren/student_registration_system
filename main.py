@@ -90,7 +90,7 @@ def clear():
 
     img = ""
 
-############### SAVE #####################3
+############### SAVE #####################
 
 def save():
     R1 = Registration.get()
@@ -118,14 +118,15 @@ def save():
         sheet.cell(column=1, row=sheet.max_row+1, value=R1)
         sheet.cell(column=2, row=sheet.max_row, value=N1)
         sheet.cell(column=3, row=sheet.max_row, value=S1)
-        sheet.cell(column=4, row=sheet.max_row, value=D2)
-        sheet.cell(column=5, row=sheet.max_row, value=D1)
-        sheet.cell(column=6, row=sheet.max_row, value=E1)
-        sheet.cell(column=7, row=sheet.max_row, value=P1) 
-        sheet.cell(column=8, row=sheet.max_row, value=U1)
-        sheet.cell(column=9, row=sheet.max_row, value=S2)
-        sheet.cell(column=10, row=sheet.max_row, value=C1)
-        sheet.cell(column=11, row=sheet.max_row, value=S3)
+        sheet.cell(column=4, row=sheet.max_row, value=G1)
+        sheet.cell(column=5, row=sheet.max_row, value=D2)
+        sheet.cell(column=6, row=sheet.max_row, value=D1)
+        sheet.cell(column=7, row=sheet.max_row, value=E1)
+        sheet.cell(column=8, row=sheet.max_row, value=P1) 
+        sheet.cell(column=9, row=sheet.max_row, value=U1)
+        sheet.cell(column=10, row=sheet.max_row, value=S2)
+        sheet.cell(column=11, row=sheet.max_row, value=C1)
+        sheet.cell(column=12, row=sheet.max_row, value=S3)
         file.save(r"student_data.xlsx")
 
         try:
@@ -137,6 +138,129 @@ def save():
 
         clear()
         registration_no()
+
+##################### SEARCH #################################
+def search():
+    
+    text = Search.get()
+
+    clear()
+    SaveButton.config(state="disabled") # after clicking search button save button will be disabled so no one can click
+
+    file= openpyxl.load_workbook("student_data.xlsx")
+    sheet=file.active
+     
+    for row in sheet.rows:
+        if row[0].value == int(text):
+            name = row[0]
+            #print(str(name))
+            reg_no_position =str(name)[14:-1]
+            reg_number= str(name)[15:-1]
+
+            #print(reg_no_position)
+            #print(reg_number)
+
+    try:
+        print(str(name))
+    except:
+        messagebox.showerror("invalid","Invalid registration number")
+
+    x1 = sheet.cell(row=int(reg_number),column=1).value
+    x2 = sheet.cell(row=int(reg_number),column=2).value
+    x3 = sheet.cell(row=int(reg_number),column=3).value
+    x4 = sheet.cell(row=int(reg_number),column=4).value
+    x5 = sheet.cell(row=int(reg_number),column=5).value
+    x6 = sheet.cell(row=int(reg_number),column=6).value
+    x7 = sheet.cell(row=int(reg_number),column=7).value
+    x8 = sheet.cell(row=int(reg_number),column=8).value
+    x9 = sheet.cell(row=int(reg_number),column=9).value
+    x10 = sheet.cell(row=int(reg_number),column=10).value
+    x11 = sheet.cell(row=int(reg_number),column=11).value
+    x12 = sheet.cell(row=int(reg_number),column=12).value
+
+     #print(x1)
+    #print(x2)
+    #print(x3)
+    #print(x4)
+    #print(x5)
+    #print(x6)
+    #print(x7)
+    #print(x8)
+    #print(x9)
+    #print(x10)
+    #print(x11) 
+
+    Registration.set(x1)
+    Name.set(x2)
+    Surname.set(x3)
+
+    if x4 == "Female":
+        radio2.select()
+    else:
+        radio1.select()
+
+    DOB.set(x5)
+    Date.set(x6)
+    Email.set(x7)
+    Phone.set(x8)
+    UniName.set(x9)
+    StudentNo.set(x10)
+    Class.set(x11)
+    Skill.set(x12)
+
+    img = (Image.open("Student images/"+ str(x1)+".jpg"))
+    resized_images= img.resize((190,190))
+    photo2=ImageTk.PhotoImage(resized_images)
+    lbl.config(image=photo2)
+    lbl.image= photo2
+
+def update():
+    R1 = Registration.get()
+    N1 = Name.get()
+    S1= Surname.get()
+    selection()
+    G1=gender
+    D2= DOB.get()
+    D1 = Date.get()
+    E1 = Email.get()
+    P1 = Phone.get()
+    U1 = UniName.get()
+    S2 = StudentNo.get()
+    C1 = Class.get()
+    S3 = Skill.get()
+
+    file =openpyxl.load_workbook("student_data.xlsx")
+    sheet = file.active
+
+    for row in sheet.rows:
+        if row[0].value == R1:
+            name=row[0]
+            print(str(name))
+            reg_no_position =str(name)[14:-1]
+            reg_number = str(name)[15:-1]
+            print(reg_number)
+
+    #sheet.cell(column =1, row=int(reg_number),value=R1) no one can update registration no
+    sheet.cell(column =2, row=int(reg_number),value=N1)
+    sheet.cell(column =3, row=int(reg_number),value=S1)
+    sheet.cell(column =4, row=int(reg_number),value=G1)
+    sheet.cell(column =5, row=int(reg_number),value=D2)
+    sheet.cell(column =6, row=int(reg_number),value=D1)
+    sheet.cell(column =7, row=int(reg_number),value=E1)
+    sheet.cell(column =8, row=int(reg_number),value=P1)
+    sheet.cell(column =9, row=int(reg_number),value=U1)
+    sheet.cell(column =10, row=int(reg_number),value=S2)
+    sheet.cell(column =11, row=int(reg_number),value=C1)
+    sheet.cell(column =12, row=int(reg_number),value=S3)
+
+    file.save(r"student_data.xlsx")
+    
+    try:
+        img.save("Student images/"+str(R1)+".jpg")
+    except:
+        pass
+    messagebox.showinfo("update","Updated successfully")
+    
 
 
 #gender
@@ -165,11 +289,11 @@ Search = StringVar()
 Entry(root, textvariable= Search, width=10, bd=2, bg="#f8f8f6", font="arial 19 ").place(x =910, y =80)
 imageicon3 =PhotoImage(file ="images/search.png")
 Srch= Button(root, text="Search student ",bg="#f8f8f6", fg= "#1B1E2B",compound=LEFT ,image = imageicon3, 
-             width =130, height= 28)
+             width =130, height= 28, command=search)
 Srch.place(x= 1070, y =80)
 
 imageicon4 =PhotoImage(file ="images/reload.png")
-update_button = Button(root, image = imageicon4, width =55, height= 30, bg="#292D3E")
+update_button = Button(root, image = imageicon4, width =55, height= 30, bg="#292D3E", command= update)
 update_button.place(x= 100, y =18)
 
 
